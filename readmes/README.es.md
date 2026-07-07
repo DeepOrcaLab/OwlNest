@@ -1,14 +1,14 @@
 <div align="center"><a name="readme-top"></a>
 
-[![Read Frog banner][image-banner]][website]
+[![OwlNest banner][image-banner]][website]
 
 <p align="center">
   <a href="https://trendshift.io/repositories/22377" target="_blank"><img src="https://trendshift.io/api/badge/repositories/22377" alt="mengxi-ream%2Fread-frog | Trendshift" width="250" height="55" /></a>
-  <a href="https://www.star-history.com/mengxi-ream/read-frog">
+  <a href="https://www.star-history.com/DeepOrcaLab/OwlNest">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=mengxi-ream/read-frog&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=mengxi-ream/read-frog" />
-      <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=mengxi-ream/read-frog" width="260" height="55" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=DeepOrcaLab/OwlNest&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=DeepOrcaLab/OwlNest" />
+      <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=DeepOrcaLab/OwlNest" width="260" height="55" />
     </picture>
   </a>
 </p>
@@ -19,7 +19,7 @@ Domina idiomas con más facilidad y profundidad usando IA directamente en tu nav
 
 [![English][english-shield]](../README.md) [![简体中文][chinese-shield]](./README.zh-CN.md) [![繁體中文][traditional-chinese-shield]](./README.zh-TW.md) [![日本語][japanese-shield]](./README.ja.md) [![한국어][korean-shield]](./README.ko.md) [![Español][spanish-shield]](./README.es.md) [![Русский][russian-shield]](./README.ru.md) [![Türkçe][turkish-shield]](./README.tr.md) [![Tiếng Việt][vietnamese-shield]](./README.vi.md)
 
-[Sitio oficial](https://readfrog.app) · [Tutorial](https://www.readfrog.app/docs) · [Cambios][github-release-link] · [Blog](https://www.readfrog.app/blog)
+[Sitio oficial](https://owlnest.app) · [Tutorial](https://www.owlnest.app/docs) · [Cambios][github-release-link] · [Blog](https://www.owlnest.app/blog)
 
 <!-- SHIELD GROUP -->
 
@@ -77,15 +77,15 @@ Domina idiomas con más facilidad y profundidad usando IA directamente en tu nav
 ## 📺 Demo
 
 <div align="center">
-  <img src="../assets/node-translation-demo.gif" width="38%" alt="Interfaz emergente de Read Frog" />
-  <img src="../assets/page-translation-demo.gif" width="60%" alt="Interfaz de traducción de Read Frog" />
+  <img src="../assets/node-translation-demo.gif" width="38%" alt="Interfaz emergente de OwlNest" />
+  <img src="../assets/page-translation-demo.gif" width="60%" alt="Interfaz de traducción de OwlNest" />
 </div>
 
 ## 👋🏻 Primeros pasos y comunidad
 
-La visión de Read Frog es ofrecer una experiencia de aprendizaje de idiomas fácil de usar, inteligente y personalizada para estudiantes de todos los niveles. En la era de la IA esto ya es posible, pero todavía hay pocos productos que cubran bien esta necesidad. Por eso decidimos construirlo nosotros mismos.
+La visión de OwlNest es ofrecer una experiencia de aprendizaje de idiomas fácil de usar, inteligente y personalizada para estudiantes de todos los niveles. En la era de la IA esto ya es posible, pero todavía hay pocos productos que cubran bien esta necesidad. Por eso decidimos construirlo nosotros mismos.
 
-Tanto si eres usuario como desarrollador, Read Frog puede ser una parte importante de ese camino. El proyecto sigue en desarrollo activo y agradecemos cualquier comentario o [issue][issues-link].
+Tanto si eres usuario como desarrollador, OwlNest puede ser una parte importante de ese camino. El proyecto sigue en desarrollo activo y agradecemos cualquier comentario o [issue][issues-link].
 
 ### Descarga
 
@@ -105,18 +105,18 @@ Tanto si eres usuario como desarrollador, Read Frog puede ser una parte importan
 >
 > **⭐️ Danos una estrella** para recibir notificaciones de cada lanzamiento en GitHub sin retraso.
 
-[![Star Read Frog on GitHub][image-star]][github-star-link]
+[![Star OwlNest on GitHub][image-star]][github-star-link]
 
 <details>
 <summary>
   <kbd>Historial de estrellas</kbd>
 </summary>
 
-<a href="https://www.star-history.com/#mengxi-ream/read-frog&Timeline">
+<a href="https://www.star-history.com/#DeepOrcaLab/OwlNest&Timeline">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mengxi-ream/read-frog&type=Timeline&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mengxi-ream/read-frog&type=Timeline" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mengxi-ream/read-frog&type=Timeline" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=DeepOrcaLab/OwlNest&type=Timeline&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=DeepOrcaLab/OwlNest&type=Timeline" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=DeepOrcaLab/OwlNest&type=Timeline" />
  </picture>
 </a>
 
@@ -124,7 +124,7 @@ Tanto si eres usuario como desarrollador, Read Frog puede ser una parte importan
 
 ## ✨ Funciones
 
-Convierte tu lectura diaria en la web en una experiencia inmersiva de aprendizaje de idiomas con Read Frog.
+Convierte tu lectura diaria en la web en una experiencia inmersiva de aprendizaje de idiomas con OwlNest.
 
 ### 🔄 [Bilingüe / Solo traducción][docs-tutorial]
 
@@ -140,7 +140,7 @@ La barra se coloca automáticamente dentro de la ventana, se puede arrastrar y f
 
 ### 🧠 [Traducción con contexto][docs-tutorial]
 
-Permite que la IA entienda el contexto completo de lo que lees. Read Frog extrae el título de la página y una versión Markdown concisa del contenido para generar traducciones más precisas y adecuadas al contexto.
+Permite que la IA entienda el contexto completo de lo que lees. OwlNest extrae el título de la página y una versión Markdown concisa del contenido para generar traducciones más precisas y adecuadas al contexto.
 
 Así los términos técnicos se traducen correctamente, las expresiones literarias conservan matices y las frases ambiguas se interpretan según el contenido que las rodea.
 
@@ -156,7 +156,7 @@ La detección automática de idioma y el mapeo de voces por idioma ayudan a eleg
 
 ### 📦 [Solicitudes por lotes][docs-tutorial]
 
-Ahorra hasta un 70% en costes de API con agrupación inteligente de solicitudes. Read Frog combina varias traducciones en una sola llamada, reduciendo overhead y uso de tokens sin sacrificar calidad.
+Ahorra hasta un 70% en costes de API con agrupación inteligente de solicitudes. OwlNest combina varias traducciones en una sola llamada, reduciendo overhead y uso de tokens sin sacrificar calidad.
 
 Incluye reintentos con backoff exponencial y fallback automático a solicitudes individuales si falla el procesamiento por lotes.
 
@@ -176,28 +176,28 @@ También hay opciones gratuitas: Google Translate, Microsoft Translate y DeepLX 
 
 Toda contribución es bienvenida.
 
-1. Recomienda Read Frog a tus amigos y familiares.
+1. Recomienda OwlNest a tus amigos y familiares.
 2. Reporta [issues][issues-link] y envía feedback.
 3. Contribuye con código.
 
 ### Contribuir con código
 
-Estructura del proyecto: [DeepWiki](https://deepwiki.com/mengxi-ream/read-frog)
+Estructura del proyecto: [DeepWiki](https://deepwiki.com/DeepOrcaLab/OwlNest)
 
 Pide a la IA que entienda el proyecto: [Dosu](https://app.dosu.dev/29569286-71ba-47dd-b038-c7ab1b9d0df7/documents)
 
-Consulta la [guía de contribución](https://readfrog.app/en/docs/code-contribution/contribution-guide) para más detalles.
+Consulta la [guía de contribución](https://owlnest.app/en/docs/code-contribution/contribution-guide) para más detalles.
 
 ReadFrog tiene doble licencia: GPLv3 y licencia comercial.
 
 Consulta [CONTRIBUTING.md](../CONTRIBUTING.md) para los términos de licencia de contribuyentes.
 
-<a href="https://github.com/mengxi-ream/read-frog/graphs/contributors">
+<a href="https://github.com/DeepOrcaLab/OwlNest/graphs/contributors">
   <table>
     <tr>
       <th colspan="2">
         <br>
-        <img src="https://contrib.rocks/image?repo=mengxi-ream/read-frog" alt="Read Frog contributors"><br>
+        <img src="https://contrib.rocks/image?repo=DeepOrcaLab/OwlNest" alt="OwlNest contributors"><br>
         <br>
       </th>
     </tr>
@@ -206,7 +206,7 @@ Consulta [CONTRIBUTING.md](../CONTRIBUTING.md) para los términos de licencia de
 
 ## 📜 Licencia comercial
 
-<img src="../assets/tabbit.avif" alt="Tabbit" height="20" /> **Meituan Tabbit Browser Team**: licencia gratuita para uso comercial de código cerrado, limitada a v1.21.3 y versiones anteriores (commit [`724863f`](https://github.com/mengxi-ream/read-frog/commit/724863fdbc2d777766cada6c111235534ee03ca0)). Concedida el 3 de marzo de 2026 a las 9:00 AM, hora de Vancouver (UTC-8).
+<img src="../assets/tabbit.avif" alt="Tabbit" height="20" /> **Meituan Tabbit Browser Team**: licencia gratuita para uso comercial de código cerrado, limitada a v1.21.3 y versiones anteriores (commit [`724863f`](https://github.com/DeepOrcaLab/OwlNest/commit/724863fdbc2d777766cada6c111235534ee03ca0)). Concedida el 3 de marzo de 2026 a las 9:00 AM, hora de Vancouver (UTC-8).
 
 ## ❤️ Patrocinadores
 
@@ -226,8 +226,8 @@ Cada donación nos ayuda a crear una mejor experiencia de aprendizaje de idiomas
 [chrome-store-link]: https://chromewebstore.google.com/detail/read-frog-open-source-ai/modkelfkcfjpgbfmnbnllalkiogfofhb
 [chrome-users-shield]: https://img.shields.io/chrome-web-store/users/modkelfkcfjpgbfmnbnllalkiogfofhb?style=flat-square&label=Chrome%20Users&color=yellow&labelColor=black
 [chrome-version-shield]: https://img.shields.io/chrome-web-store/v/modkelfkcfjpgbfmnbnllalkiogfofhb?style=flat-square&label=Chrome%20Version&labelColor=black&color=yellow
-[contributors-link]: https://github.com/mengxi-ream/read-frog/graphs/contributors
-[contributors-shield]: https://img.shields.io/github/contributors/mengxi-ream/read-frog?style=flat-square&labelColor=black
+[contributors-link]: https://github.com/DeepOrcaLab/OwlNest/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/DeepOrcaLab/OwlNest?style=flat-square&labelColor=black
 [crxsoso-link]: https://www.crxsoso.com/webstore/detail/modkelfkcfjpgbfmnbnllalkiogfofhb
 [chinese-shield]: https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-gray?style=flat-square
 [discord-link]: https://discord.gg/ej45e3PezJ
@@ -240,30 +240,30 @@ Cada donación nos ayuda a crear una mejor experiencia de aprendizaje de idiomas
 [firefox-users-shield]: https://img.shields.io/amo/users/read-frog-open-ai-translator?style=flat-square&label=Firefox%20Users&color=orange&labelColor=black
 [edge-users-shield]: https://img.shields.io/badge/dynamic/json?style=flat-square&logo=microsoft-edge&label=Edge%20Users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fcbcbomlgikfbdnoaohcjfledcoklcjbo&labelColor=black
 [edge-version-shield]: https://img.shields.io/badge/dynamic/json?style=flat-square&logo=microsoft-edge&label=Edge%20Version&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fcbcbomlgikfbdnoaohcjfledcoklcjbo&labelColor=black&prefix=v
-[extension-release-shield]: https://img.shields.io/github/package-json/v/mengxi-ream/read-frog?filename=package.json&style=flat-square&label=Latest%20Version&color=brightgreen&labelColor=black
-[github-release-link]: https://github.com/mengxi-ream/read-frog/releases
-[github-star-link]: https://github.com/mengxi-ream/read-frog/stargazers
+[extension-release-shield]: https://img.shields.io/github/package-json/v/DeepOrcaLab/OwlNest?filename=package.json&style=flat-square&label=Latest%20Version&color=brightgreen&labelColor=black
+[github-release-link]: https://github.com/DeepOrcaLab/OwlNest/releases
+[github-star-link]: https://github.com/DeepOrcaLab/OwlNest/stargazers
 [image-banner]: ../assets/banner.png
 [image-star]: ../assets/star.png
-[issues-link]: https://github.com/mengxi-ream/read-frog/issues
-[issues-shield]: https://img.shields.io/github/issues/mengxi-ream/read-frog?style=flat-square&labelColor=black
+[issues-link]: https://github.com/DeepOrcaLab/OwlNest/issues
+[issues-shield]: https://img.shields.io/github/issues/DeepOrcaLab/OwlNest?style=flat-square&labelColor=black
 [japanese-shield]: https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-gray?style=flat-square
 [korean-shield]: https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EC%96%B4-gray?style=flat-square
-[last-commit-shield]: https://img.shields.io/github/last-commit/mengxi-ream/read-frog?style=flat-square&label=commit&labelColor=black
+[last-commit-shield]: https://img.shields.io/github/last-commit/DeepOrcaLab/OwlNest?style=flat-square&label=commit&labelColor=black
 [russian-shield]: https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-gray?style=flat-square
 [sponsor-image]: https://cdn.jsdelivr.net/gh/mengxi-ream/static/sponsorkit/sponsors.svg
 [sponsor-link]: https://github.com/sponsors/mengxi-ream
 [sponsor-shield]: https://img.shields.io/github/sponsors/mengxi-ream?style=flat-square&label=Sponsor&color=EA4AAA&labelColor=black
 [spanish-shield]: https://img.shields.io/badge/Espa%C3%B1ol-gray?style=flat-square
-[star-history-link]: https://www.star-history.com/#mengxi-ream/read-frog&Timeline
-[star-history-shield]: https://img.shields.io/github/stars/mengxi-ream/read-frog?style=flat-square&label=stars&color=yellow&labelColor=black
+[star-history-link]: https://www.star-history.com/#DeepOrcaLab/OwlNest&Timeline
+[star-history-shield]: https://img.shields.io/github/stars/DeepOrcaLab/OwlNest?style=flat-square&label=stars&color=yellow&labelColor=black
 [traditional-chinese-shield]: https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-gray?style=flat-square
 [turkish-shield]: https://img.shields.io/badge/T%C3%BCrk%C3%A7e-gray?style=flat-square
 [vietnamese-shield]: https://img.shields.io/badge/Ti%E1%BA%BFng%20Vi%E1%BB%87t-gray?style=flat-square
-[website]: https://readfrog.app
+[website]: https://owlnest.app
 [wechat-link]: ../assets/wechat-account.jpg
 [wechat-shield-badge]: https://img.shields.io/badge/chat-WeChat-07C160?style=for-the-badge&logo=wechat&logoColor=white&labelColor=black
 
 <!-- Feature docs link -->
 
-[docs-tutorial]: https://readfrog.app/docs
+[docs-tutorial]: https://owlnest.app/docs
