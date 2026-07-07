@@ -33,7 +33,7 @@ Translate, read, chat with voice, search the web, and build your personal knowle
   - [OwlNest Agent Chat](#owlnest-agent-chat)
   - [Voice Input](#voice-input)
   - [Text-to-Speech (TTS)](#text-to-speech-tts)
-  - [Web Search & Weather](#web-search--weather)
+  - [Web Search](#web-search)
   - [Knowledge Nest](#knowledge-nest)
   - [Page Export](#page-export)
   - [Multi-Provider Support](#multi-provider-support)
@@ -52,7 +52,7 @@ Translate, read, chat with voice, search the web, and build your personal knowle
 
 ## Getting Started
 
-OwlNest is an open-source AI browser extension that transforms your everyday web reading. Beyond translation, it gives you a side panel AI agent, voice input, web search, weather lookup, and a local knowledge nest to save and organize what you learn.
+OwlNest is an open-source AI browser extension that transforms your everyday web reading. Beyond translation, it gives you a side panel AI agent, voice input, web search, and a local knowledge nest to save and organize what you learn.
 
 ### Download
 
@@ -114,9 +114,9 @@ Speak your questions naturally. OwlNest converts speech to text and feeds it to 
 
 Listen to selected text with 150+ high-quality AI voices across 80+ languages. Powered by **Edge TTS** — completely free. Adjustable rate, pitch, and volume.
 
-### Web Search & Weather
+### Web Search
 
-Enable web search for real-time information. Ask about news, events, or facts — OwlNest fetches current results. Weather lookup is also built-in. Tools show live status indicators as they work.
+Enable web search for real-time information. Ask about news, events, or facts — OwlNest fetches current results. Tools show live status indicators as they work.
 
 ### Knowledge Nest
 
@@ -190,7 +190,7 @@ Major changes in OwlNest include:
 - Added save-to-knowledge workflow with AI-generated tags/topics
 - Added page export to Markdown and PDF
 - Added voice input and TTS improvements
-- Added web search and weather tool integrations
+- Added web search tool integrations
 - Added agent tool workflow with live status indicators
 - Updated onboarding, branding assets, and multi-language support
 - Unified icon library and theme token system
