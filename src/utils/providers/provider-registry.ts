@@ -4,11 +4,11 @@ import type { Theme } from "@/types/config/theme"
 import type { FeatureKey } from "@/utils/constants/feature-providers"
 import type { ProviderSelectorItem, ProviderSelectorOption } from "@/utils/providers/provider-display"
 import { i18n } from "#imports"
-import readFrogLogo from "@/assets/providers/owlnest-icon.png?url&no-inline"
+import owlNestLogo from "@/assets/providers/owlnest-icon.png?url&no-inline"
 import { isLLMProviderConfig, isTranslateProviderConfig } from "@/types/config/provider"
 
 export const FREE_AI_PROVIDER_ID = "read-frog-free-ai"
-export const FREE_AI_PROVIDER_LOGO = readFrogLogo
+export const FREE_AI_PROVIDER_LOGO = owlNestLogo
 
 const FREE_AI_PROVIDER_NAME_KEY = "options.apiProviders.providers.name.freeAi"
 const FREE_AI_PROVIDER_FALLBACK_NAME = "Free AI Service"

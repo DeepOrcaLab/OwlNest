@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for Read Frog
+description: Suggest an idea for OwlNest
 title: "[FEATURE] "
 labels: [enhancement]
 assignees: []
@@ -19,9 +19,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        This template is used for suggesting a feature for Read Frog.
+        This template is used for suggesting a feature for OwlNest.
 
-        Bug reports should be opened via the [Bug Report Form](https://github.com/mengxi-ream/read-frog/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=)
+        Bug reports should be opened via the [Bug Report Form](https://github.com/DeepOrcaLab/OwlNest/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=)
   - type: textarea
     id: problem
     attributes:

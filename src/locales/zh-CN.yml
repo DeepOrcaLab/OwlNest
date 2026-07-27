@@ -1,6 +1,6 @@
-name: 陪读蛙
-extName: 陪读蛙 - 翻译与学习
-extDescription: 陪读蛙是一款开放源代码的浏览器插件，旨在帮助您从任何网站深入学习语言。
+name: OwlNest
+extName: OwlNest - AI 阅读与知识巢
+extDescription: OwlNest 是一款 AI 阅读与知识巢浏览器扩展，支持网页翻译、侧边栏 AI 助手、语音输入、网页搜索和本地知识库。
 uninstallSurveyUrl: https://github.com/owlnest/owlnest/issues
 dataTypes:
   string: 文本
@@ -11,7 +11,7 @@ contextMenu:
   readAloudSelection: 朗读”%s”
   showOriginal: 显示原文
 sidePanel:
-  firefoxUserActionHint: 在 Firefox 中，请从浏览器侧边栏打开陪读蛙。
+  firefoxUserActionHint: 在 Firefox 中，请从浏览器侧边栏打开 OwlNest。
   firefoxUserActionHelpText: 查看 Firefox 侧边栏说明
   firefoxUserActionHelpUrl: https://support.mozilla.org/zh-CN/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -46,7 +46,7 @@ popup:
   discord:
     tooltip: 加入 Discord 与开发者交流，抢先体验新功能
   blog:
-    notification: 陪读蛙更新动态
+    notification: OwlNest 更新动态
   aiSmartContext: AI 智能上下文
   aiSmartContextDescription: 结合网页上下文提升翻译效果。需要配置 LLM 翻译服务商。
   more:
@@ -307,7 +307,7 @@ options:
     floatingButton:
       globalToggle:
         title: 启用悬浮按钮
-        description: 在网页上显示悬浮按钮，快速访问陪读蛙功能
+        description: 在网页上显示悬浮按钮，快速访问 OwlNest 功能
       closeMenu:
         disableForSite: 当前网站禁用
         disableGlobally: 全局禁用
@@ -640,7 +640,7 @@ options:
       title: 个性化 Prompt
       description: 自定义不同类型的 Prompt，可以在翻译时自行调整 Prompt 类型。Prompt 表示以用户身份发送给 LLM 的文本。
       communityPrompts: 获取或分享社区 Prompt
-      communityPromptsUrl: https://github.com/mengxi-ream/read-frog/discussions/820
+      communityPromptsUrl: https://github.com/DeepOrcaLab/OwlNest/discussions
       addPrompt: 添加 Prompt
       default: 通用
       importSuccess: 导入成功

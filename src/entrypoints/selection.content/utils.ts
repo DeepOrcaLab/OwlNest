@@ -145,7 +145,7 @@ function collectSelectionBoundaryNodes(selection: Selection) {
   return [...boundaryNodes]
 }
 
-function getReadFrogSubtitleShadowRoot() {
+function getOwlNestSubtitleShadowRoot() {
   const subtitlesHost = document.getElementById(READ_FROG_SUBTITLES_UI_HOST_ID)
   const subtitlesRoot = subtitlesHost?.shadowRoot
   return subtitlesRoot ?? null
@@ -168,7 +168,7 @@ function collectSelectionShadowRoots(selection: Selection) {
     }
   }
 
-  const subtitleShadowRoot = getReadFrogSubtitleShadowRoot()
+  const subtitleShadowRoot = getOwlNestSubtitleShadowRoot()
   if (subtitleShadowRoot) {
     shadowRoots.add(subtitleShadowRoot)
   }

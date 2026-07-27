@@ -525,7 +525,7 @@ options:
       title: Kişiselleştirilmiş Promptlar
       description: Farklı türde Promptları özelleştirmek, çeviri sırasında Prompt türünü kendiniz ayarlamanıza olanak tanır. Prompt, kullanıcının LLM'ye gönderdiği metni temsil eder.
       communityPrompts: Topluluktan prompt al veya paylaş
-      communityPromptsUrl: https://github.com/mengxi-ream/read-frog/discussions/821
+      communityPromptsUrl: https://github.com/DeepOrcaLab/OwlNest/discussions
       addPrompt: Prompt Ekle
       default: Varsayılan
       importSuccess: İçe Aktarma Başarılı

@@ -44,15 +44,24 @@ export async function queryKnowledgeCards(
 ): Promise<KnowledgeCard[]> {
   let collection = db.knowledgeCards.toCollection()
 
-  // Apply text search across selectedText, resultText, topic
-  if (query.searchText) {
-    const search = query.searchText.toLowerCase()
-    collection = collection.filter(card =>
-      card.selectedText.toLowerCase().includes(search)
-      || card.resultText?.toLowerCase().includes(search)
-      || card.topic?.toLowerCase().includes(search)
-      || (card.tags?.some(tag => tag.toLowerCase().includes(search)) ?? false),
-    )
+  // Apply text search across user-visible card fields.
+  const searchTerms = [
+    ...(query.searchText ? [query.searchText] : []),
+    ...(query.searchTerms ?? []),
+  ].map(term => term.trim().toLowerCase()).filter(Boolean)
+
+  if (searchTerms.length > 0) {
+    collection = collection.filter((card) => {
+      const searchable = [
+        card.selectedText,
+        card.resultText ?? "",
+        card.pageTitle ?? "",
+        card.topic ?? "",
+        ...(card.tags ?? []),
+      ].join("\n").toLowerCase()
+
+      return searchTerms.some(term => searchable.includes(term))
+    })
   }
 
   // Filter by page URL

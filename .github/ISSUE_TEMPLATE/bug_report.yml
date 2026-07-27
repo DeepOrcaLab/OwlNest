@@ -1,5 +1,5 @@
 name: Report a bug
-description: Create a report to help us improve Read Frog
+description: Create a report to help us improve OwlNest
 labels: [bug]
 title: "[BUG] "
 assignees: []
@@ -19,9 +19,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        This template is used for reporting an issue with Read Frog.
+        This template is used for reporting an issue with OwlNest.
 
-        Feature requests should be opened via the [Feature Request Form](https://github.com/mengxi-ream/read-frog/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=)
+        Feature requests should be opened via the [Feature Request Form](https://github.com/DeepOrcaLab/OwlNest/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=)
   - type: textarea
     id: expected
     attributes:
@@ -42,7 +42,7 @@ body:
       placeholder: |
         Ex:
         1. Open a news article page
-        2. Click the Read Frog icon to open the popup
+        2. Click the OwlNest icon to open the popup
         3. Enable Immersive Translation
         4. Observe translation not appearing on the page
     validations:
@@ -74,7 +74,7 @@ body:
         - OS: [e.g. macOS 14.5]
         - Browser: [e.g. Chrome 126, Edge 125]
         - Extension channel/version: [e.g. Chrome Web Store 1.2.3]
-        - Website: [e.g. https://readfrog.app, date/time observed]
+        - Website: [e.g. page URL and date/time observed]
     validations:
       required: true
   - type: textarea

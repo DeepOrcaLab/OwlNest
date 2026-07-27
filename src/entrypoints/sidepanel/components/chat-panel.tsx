@@ -20,9 +20,11 @@ import ReactMarkdown from "react-markdown"
 import { browser } from "#imports"
 import { Button } from "@/components/ui/base-ui/button"
 import { isLLMProviderConfig } from "@/types/config/provider"
-import { getCurrentReadablePage } from "@/utils/agent/current-page"
-import { isExplicitWebSearchQuery, isSaveToKnowledgeQuery, isWeatherQuery, shouldReadCurrentPage, shouldSearchWeb } from "@/utils/agent/query-intent"
+import { focusCurrentPageEvidence, formatPageEvidence, getCurrentReadablePage, getPageEvidenceParagraphs } from "@/utils/agent/current-page"
+import { buildKnowledgeSearchTerms, isExplicitWebSearchQuery, isKnowledgeQuery, isSaveToKnowledgeQuery, isWeatherQuery, shouldReadCurrentPage, shouldReadCurrentVideo, shouldSearchWeb } from "@/utils/agent/query-intent"
 import { createToolEvent } from "@/utils/agent/types"
+import { formatVideoTranscriptContext, isSupportedVideoPage, requestVideoTranscript } from "@/utils/agent/video-transcript"
+import { fetchWeatherContext } from "@/utils/agent/weather"
 import { getAgentWebSearchConfig } from "@/utils/agent/web-search-config"
 import { addChatMessage, clearConversation, getConversationMessages, getOrCreateConversation } from "@/utils/chat/chat-memory"
 import { streamBackgroundText } from "@/utils/content-script/background-stream-client"
@@ -53,6 +55,7 @@ export function ChatPanel() {
   const [webSearchEnabled, setWebSearchEnabled] = useState(true)
   const [webSearchActive, setWebSearchActive] = useState(false)
   const [pageText, setPageText] = useState<string>("")
+  const [pageEvidenceParagraphs, setPageEvidenceParagraphs] = useState<string[]>([])
   const [toolEvents, setToolEvents] = useState<AgentToolEvent[]>([])
   const [responseMeta, setResponseMeta] = useState<Record<string, AssistantResponseMeta>>({})
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null)
@@ -84,6 +87,8 @@ export function ChatPanel() {
         setPageContext(pageResult.ok ? { title: pageResult.page.title, url: pageResult.page.url } : {})
         if (pageResult.ok)
           setPageText(pageResult.page.selectedText || pageResult.page.content)
+        if (pageResult.ok)
+          setPageEvidenceParagraphs(getPageEvidenceParagraphs(pageResult.page))
 
         const conv = await getOrCreateConversation(currentUrl, pageResult.ok ? pageResult.page.title : undefined)
         setConversationId(conv.id)
@@ -192,16 +197,33 @@ export function ChatPanel() {
     return `Today is ${now}.\n${ctx}${pg}${tools}Previous conversation:\n${h}\n\nUser: ${userText}\n\nAssistant:`
   }, [pageContext])
 
-  const searchKnowledgeContext = useCallback(async (query: string): Promise<string> => {
+  const searchKnowledgeContext = useCallback(async (query: string, currentPageTitle?: string): Promise<string> => {
     try {
       emitToolEvent(createToolEvent("search_knowledge", "running", "正在搜索 Knowledge"))
-      const cards = await (sendMessage as any)("knowledge:query", { query: { searchText: query, sortBy: "createdAt", sortDirection: "desc", limit: 3 } }) as KnowledgeCard[]
+      const searchTerms = buildKnowledgeSearchTerms(query, currentPageTitle)
+      let cards = await (sendMessage as any)("knowledge:query", {
+        query: { searchTerms, sortBy: "createdAt", sortDirection: "desc", limit: 5 },
+      }) as KnowledgeCard[]
+
+      if (!cards?.length && isKnowledgeQuery(query)) {
+        cards = await (sendMessage as any)("knowledge:query", {
+          query: { sortBy: "createdAt", sortDirection: "desc", limit: 5 },
+        }) as KnowledgeCard[]
+      }
+
       if (!cards?.length) {
         emitToolEvent(createToolEvent("search_knowledge", "skipped", "Knowledge 没有匹配结果"))
         return ""
       }
       emitToolEvent(createToolEvent("search_knowledge", "success", `找到 ${cards.length} 条 Knowledge`))
-      return cards.map(c => `- ${c.selectedText.slice(0, 200)}${c.resultText ? ` → ${c.resultText.slice(0, 200)}` : ""}`).join("\n")
+      return cards.map((card, index) => [
+        `[K${index + 1}]`,
+        `Title: ${card.pageTitle || "(untitled)"}`,
+        `Topic: ${card.topic || "(none)"}`,
+        `Tags: ${card.tags?.join(", ") || "(none)"}`,
+        `Saved content: ${card.selectedText.slice(0, 500)}`,
+        card.resultText ? `Saved result: ${card.resultText.slice(0, 500)}` : "",
+      ].filter(Boolean).join("\n")).join("\n\n")
     }
     catch {
       emitToolEvent(createToolEvent("search_knowledge", "error", "Knowledge 搜索失败"))
@@ -221,6 +243,7 @@ export function ChatPanel() {
       setPageContext({ title: pageResult.page.title, url: pageResult.page.url })
       const readableText = pageResult.page.selectedText || pageResult.page.content
       setPageText(readableText)
+      setPageEvidenceParagraphs(getPageEvidenceParagraphs(pageResult.page))
 
       if (wantsFullPage) {
         emitToolEvent(createToolEvent("read_page", "success", "已读取左侧网页", pageResult.page.title || pageResult.page.url))
@@ -240,19 +263,44 @@ export function ChatPanel() {
       }
     }
 
-    const knowledge = await searchKnowledgeContext(query)
+    if (shouldReadCurrentVideo(query)) {
+      if (pageResult.ok && isSupportedVideoPage(pageResult.page.url)) {
+        emitToolEvent(createToolEvent("read_video_transcript", "running", "正在读取视频字幕"))
+        const transcriptResult = await requestVideoTranscript(pageResult.page.tabId, pageResult.page.url)
+        if (transcriptResult.ok) {
+          emitToolEvent(createToolEvent(
+            "read_video_transcript",
+            "success",
+            "已读取视频字幕",
+            `${transcriptResult.transcript.segments.length} 条`,
+          ))
+          chunks.push(formatVideoTranscriptContext(transcriptResult.transcript, 18_000))
+        }
+        else {
+          emitToolEvent(createToolEvent("read_video_transcript", "error", "无法读取视频字幕", transcriptResult.message))
+          chunks.push(`[Tool: video_transcript failed]\n${transcriptResult.message}\nDo not summarize the video from the page title alone.`)
+        }
+      }
+      else {
+        emitToolEvent(createToolEvent("read_video_transcript", "skipped", "当前页面不是支持的视频页面"))
+        chunks.push("[Tool: video_transcript unavailable]\nThe active page is not a supported YouTube video page. Do not claim to have watched or summarized the video.")
+      }
+    }
+
+    const knowledge = await searchKnowledgeContext(query, pageResult.ok ? pageResult.page.title : pageContext.title)
     if (knowledge)
       chunks.push(`[Tool: search_knowledge]\n${knowledge}`)
 
     if (isWeatherQuery(query)) {
       emitToolEvent(createToolEvent("weather", "running", "正在查询天气"))
       const weather = await fetchWeatherContext(query)
-      if (weather) {
+      if (weather.ok) {
         emitToolEvent(createToolEvent("weather", "success", "天气查询完成"))
-        chunks.push(`[Tool: weather]\n${weather}`)
+        chunks.push(`[Tool: weather]\n${weather.text}`)
       }
       else {
-        emitToolEvent(createToolEvent("weather", "error", "天气查询失败"))
+        emitToolEvent(createToolEvent("weather", "error", "天气查询失败", weather.error))
+        chunks.push(`[Tool: weather failed]\n${weather.error}`)
       }
     }
 
@@ -362,6 +410,8 @@ Rules:
 - Today's date is in the context. Use it for time-aware queries.
 - Answer in the SAME LANGUAGE as the user (Chinese → Chinese, English → English).
 - If [From Web Search] results are provided, cite them. If [From Knowledge] results are provided, mention them.
+- Knowledge cards are labeled [K1], [K2], and so on. When using saved knowledge, cite the exact [K#] label and clearly distinguish it from current-page evidence [P#].
+- If the user asks to connect or compare the current page with saved knowledge, identify agreements, differences, and genuinely new information. Do not claim a connection when the supplied cards are unrelated.
 - If [Tool: web_search] results are provided, you HAVE web search context. Do not claim you lack web access or permissions.
 - For time-sensitive questions, if any web search results are present, you MUST summarize the returned results in useful bullets with dates and sources. Do not answer only with an apology.
 - If no result exactly matches today's date, say "以下是搜索工具返回的最新可用结果" and still summarize them. Mention the date mismatch briefly, then provide the list.
@@ -369,6 +419,12 @@ Rules:
 - If no web results are provided, say the search tool did not return usable results instead of claiming browser permission is missing.
 - If [Page Content] is provided, you CAN read it directly. Do NOT say you cannot access the URL.
 - If [Tool: current_page] or [Tool: read_page] is provided, you know the currently open page title/URL and any extracted text. Never say you cannot see the left/current page. If only title/URL is available, describe that metadata and say the page did not expose readable body text.
+- For reading tasks, use clear Markdown headings. Every substantive claim must include a brief supporting quote from [Page Content] in an “证据 / Evidence” section. Do not invent quotations, paragraph numbers, or page locations.
+- Treat requests such as “深度阅读”, “精读”, “提炼论点”, “给我证据”, “学习卡”, “read deeply”, “key points”, “evidence”, or “study cards” as reading tasks. For deep reading, provide: a one-sentence summary, 3–5 key points, key terms in plain language, thoughtful follow-up questions, and a short evidence quote for each key point.
+- Page paragraphs are labeled [P1], [P2], and so on. Cite the exact paragraph label after each page-grounded claim, for example “[P3]”. Only cite labels that exist in the supplied page content.
+- Video transcript segments are labeled [V1 @ time], [V2 @ time], and so on. When summarizing a video, ground the summary in the transcript and cite the exact [V#] labels. Never claim to have watched the visuals; state that the summary is based on available subtitles.
+- If video Coverage is "page-text", clearly label the answer as a limited summary based only on the available page text. Repeat the Important limitation briefly and do not imply that the complete video was transcribed.
+- If [Tool: video_transcript failed] is provided, explain the specific subtitle limitation. Do not summarize from the title, description, comments, or invented content.
 - Never make up facts. Say so when unsure.`
 
       const agentToolContext = await buildAgentToolContext(text)
@@ -485,7 +541,7 @@ Rules:
       {/* === SCROLLABLE MESSAGES === */}
       <div className="flex-1 overflow-y-auto px-3 py-2 space-y-3">
         {messages.length === 0 && (
-          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">Ask OwlNest Agent about this page...</div>
+          <div className="flex h-full items-center justify-center px-4 text-center text-sm text-muted-foreground">Ask OwlNest Agent about this page, or ask it to read deeply, extract evidence, and create study cards.</div>
         )}
         {messages.map(msg => (
           <div key={msg.id} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
@@ -506,6 +562,11 @@ Rules:
                     onSave={() => handleSaveToKnowledge(msg)}
                     onSpeak={() => speakMessage(msg)}
                     onFeedback={value => setFeedbackByMessageId(prev => ({ ...prev, [msg.id]: value }))}
+                    onEvidenceClick={(paragraphNumber) => {
+                      const evidence = pageEvidenceParagraphs[paragraphNumber - 1]
+                      if (evidence)
+                        void focusCurrentPageEvidence(evidence)
+                    }}
                   />
                 )
               : (
@@ -597,6 +658,7 @@ interface AssistantMessageViewProps {
   onSave: () => void
   onSpeak: () => void
   onFeedback: (value: "up" | "down") => void
+  onEvidenceClick: (paragraphNumber: number) => void
 }
 
 function AssistantMessageView({
@@ -610,19 +672,19 @@ function AssistantMessageView({
   onSave,
   onSpeak,
   onFeedback,
+  onEvidenceClick,
 }: AssistantMessageViewProps) {
-  const durationLabel = meta?.durationMs != null
-    ? `${Math.max(1, Math.round(meta.durationMs / 1000))}s`
+  const processingLabel = meta?.durationMs != null
+    ? `已处理 ${Math.max(1, Math.round(meta.durationMs / 1000))}s`
     : meta?.startedAt
       ? "处理中"
       : null
 
   return (
     <div className="w-full max-w-none rounded-none bg-transparent px-2 py-3 text-sm text-foreground">
-      {durationLabel && (
+      {processingLabel && (
         <div className="mb-3 flex items-center gap-1 border-b pb-2 text-xs text-muted-foreground">
-          <span>{meta?.durationMs != null ? "已处理" : "处理中"}</span>
-          <span>{durationLabel}</span>
+          <span>{processingLabel}</span>
           <span className="text-base leading-none">›</span>
         </div>
       )}
@@ -636,10 +698,10 @@ function AssistantMessageView({
                   h1: props => <h1 className="mb-3 mt-1 text-lg font-semibold leading-7" {...props} />,
                   h2: props => <h2 className="mb-2 mt-4 text-base font-semibold leading-7" {...props} />,
                   h3: props => <h3 className="mb-2 mt-3 text-sm font-semibold leading-6" {...props} />,
-                  p: props => <p className="my-2 leading-7" {...props} />,
+                  p: ({ children, ...props }) => <p className="my-2 leading-7" {...props}>{renderEvidenceCitations(children, onEvidenceClick)}</p>,
                   ol: props => <ol className="my-3 list-decimal space-y-3 pl-6" {...props} />,
                   ul: props => <ul className="my-2 list-disc space-y-1 pl-5" {...props} />,
-                  li: props => <li className="pl-1 leading-7" {...props} />,
+                  li: ({ children, ...props }) => <li className="pl-1 leading-7" {...props}>{renderEvidenceCitations(children, onEvidenceClick)}</li>,
                   strong: props => <strong className="font-semibold" {...props} />,
                   a: props => <a className="text-blue-600 underline-offset-2 hover:underline" target="_blank" rel="noreferrer" {...props} />,
                   hr: props => <hr className="my-4 border-border" {...props} />,
@@ -677,6 +739,38 @@ function AssistantMessageView({
   )
 }
 
+function renderEvidenceCitations(
+  children: React.ReactNode,
+  onEvidenceClick: (paragraphNumber: number) => void,
+): React.ReactNode {
+  let citationIndex = 0
+  const childList = Array.isArray(children) ? children : [children]
+  return childList.flatMap((child) => {
+    if (typeof child !== "string")
+      return child
+
+    return child.split(/(\[P\d+\])/).map((part) => {
+      const match = /^\[P(\d+)\]$/.exec(part)
+      if (!match)
+        return part
+
+      const paragraphNumber = Number(match[1])
+      citationIndex += 1
+      return (
+        <button
+          key={`evidence-${paragraphNumber}-${citationIndex}`}
+          type="button"
+          className="mx-0.5 inline-flex rounded bg-primary/10 px-1 py-0.5 font-mono text-[0.78em] font-medium leading-none text-primary hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          title={`定位到网页第 ${paragraphNumber} 段`}
+          onClick={() => onEvidenceClick(paragraphNumber)}
+        >
+          {part}
+        </button>
+      )
+    })
+  })
+}
+
 function ActionIconButton({
   title,
   active,
@@ -710,7 +804,7 @@ function formatMessageTime(createdAt: number): string {
 function openAssistantMessageInTab(msg: ChatMessage) {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>OwlNest Agent</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.75;max-width:860px;margin:40px auto;padding:0 24px;color:#202124;white-space:pre-wrap}h1,h2,h3{line-height:1.35}</style></head><body>${escapeHtml(msg.content)}</body></html>`
   const url = `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
-  void browser.tabs.create({ url, active: true })
+  void browser.tabs.create({ url, active: true }).catch(() => { /* context may be invalidated */ })
 }
 
 function escapeHtml(value: string): string {
@@ -733,10 +827,7 @@ function handleSaveToKnowledge(msg: ChatMessage) {
 }
 
 function formatCurrentPageToolContext(page: CurrentPageSnapshot, maxContentLength: number): string {
-  const readableText = page.selectedText || page.content
-  const content = readableText.trim()
-    ? readableText.slice(0, maxContentLength)
-    : "(No readable body text was extracted from this page.)"
+  const content = formatPageEvidence(page, maxContentLength)
 
   return [
     "[Tool: current_page]",
@@ -746,7 +837,7 @@ function formatCurrentPageToolContext(page: CurrentPageSnapshot, maxContentLengt
     `Description: ${page.description || "(none)"}`,
     `Selected Text: ${page.selectedText || "(none)"}`,
     "",
-    "Readable Content:",
+    "Readable Content (paragraph labels are evidence anchors):",
     content,
   ].join("\n")
 }
@@ -845,50 +936,6 @@ function getAdvancedProviderScore(provider: LLMProviderConfig): number {
   if (/mini|nano|lite|flash|highspeed|turbo/.test(text))
     score -= 4
   return score
-}
-
-function extractWeatherLocation(query: string): string {
-  const compact = query.replace(/\s+/g, "")
-  const chineseMatch = compact.match(/(?:今天|明天|现在|查询|查一下|请问)?(.{2,20}?)(?:天气|气温)/)
-  if (chineseMatch?.[1])
-    return chineseMatch[1].replace(/的$/, "") || "北京"
-
-  const lower = query.toLowerCase()
-  for (const marker of ["weather in ", "weather for ", "forecast in ", "forecast for ", "temperature in ", "temperature for ", "in ", "for "]) {
-    const index = lower.indexOf(marker)
-    if (index >= 0) {
-      const value = query.slice(index + marker.length).replace(/weather|forecast|temperature/gi, "").trim()
-      if (value)
-        return value
-    }
-  }
-  return "Beijing"
-}
-
-async function fetchWeatherContext(query: string): Promise<string> {
-  const location = extractWeatherLocation(query)
-  try {
-    const response = await fetch(`https://wttr.in/${encodeURIComponent(location)}?format=j1&lang=zh`)
-    if (!response.ok)
-      return ""
-    const data = await response.json() as any
-    const current = data.current_condition?.[0]
-    const area = data.nearest_area?.[0]
-    const place = area?.areaName?.[0]?.value ?? location
-    if (!current)
-      return ""
-    return [
-      `Location: ${place}`,
-      `Weather: ${current.weatherDesc?.[0]?.value ?? ""}`,
-      `Temperature: ${current.temp_C}°C`,
-      `Feels like: ${current.FeelsLikeC}°C`,
-      `Humidity: ${current.humidity}%`,
-      `Wind: ${current.windspeedKmph} km/h`,
-    ].join("\n")
-  }
-  catch {
-    return ""
-  }
 }
 
 async function fetchWebSearchContext(query: string): Promise<string> {

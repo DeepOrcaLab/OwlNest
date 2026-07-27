@@ -1,6 +1,6 @@
 name: OwlNest
-extName: "OwlNest - Translate & Learn"
-extDescription: OwlNest is an open source browser extension designed to help you learn languages deeply from any website.
+extName: OwlNest Agent
+extDescription: AI reading agent and knowledge nest browser extension with translation, side panel chat, voice input, web search, and local knowledge capture.
 uninstallSurveyUrl: https://github.com/owlnest/owlnest/issues
 dataTypes:
   string: Text
@@ -640,7 +640,7 @@ options:
       title: Personalized Prompts
       description: Customizing different types of Prompts allows you to adjust the Prompt type yourself during translation. A Prompt represents the text that the user sends to the LLM.
       communityPrompts: Get or share prompts from community
-      communityPromptsUrl: https://github.com/mengxi-ream/read-frog/discussions/821
+      communityPromptsUrl: https://github.com/DeepOrcaLab/OwlNest/discussions
       addPrompt: Add Prompt
       default: Default
       importSuccess: Import Success

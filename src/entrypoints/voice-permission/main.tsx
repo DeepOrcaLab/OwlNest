@@ -7,8 +7,6 @@ import "@/assets/styles/theme.css"
 
 function getPermissionErrorMessage(error: unknown) {
   const name = error instanceof DOMException ? error.name : error && typeof error === "object" && "name" in error ? String((error as { name?: unknown }).name) : "Unknown"
-  const message = error instanceof Error ? error.message : ""
-  console.warn("[OwlNest Voice Permission] getUserMedia failed", { name, message })
 
   switch (name) {
     case "NotAllowedError":
@@ -39,7 +37,6 @@ function VoicePermissionApp() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       stream.getTracks().forEach(track => track.stop())
       await browser.storage.local.set({ voicePermissionGranted: true })
-      console.warn("[OwlNest Voice Permission] getUserMedia permission result", { granted: true })
       setStatus("granted")
       setMessage("麦克风授权成功。现在可以回到 OwlNest Side Panel 使用语音输入。")
     }

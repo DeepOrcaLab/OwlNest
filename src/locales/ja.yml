@@ -525,7 +525,7 @@ options:
       title: 個人化プロンプト
       description: 異なるタイプのプロンプトをカスタマイズすることで、翻訳時にプロンプトタイプを自ら調整できます。プロンプトとは、ユーザーがLLMに送信するテキストを指します。
       communityPrompts: コミュニティからプロンプトを取得・共有
-      communityPromptsUrl: https://github.com/mengxi-ream/read-frog/discussions/821
+      communityPromptsUrl: https://github.com/DeepOrcaLab/OwlNest/discussions
       addPrompt: プロンプトを追加
       default: デフォルト
       importSuccess: インポート成功

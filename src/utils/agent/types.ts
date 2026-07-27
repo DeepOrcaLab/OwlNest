@@ -2,6 +2,7 @@ import type { WebSearchResult } from "@/utils/search/web-search"
 
 export type AgentToolName
   = | "read_page"
+    | "read_video_transcript"
     | "web_search"
     | "weather"
     | "search_knowledge"

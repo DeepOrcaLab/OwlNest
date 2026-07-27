@@ -224,25 +224,21 @@ export function createToggleSidePanelHandler({
       }
     }
 
-    console.warn("[Background] Received toggleSidePanel, windowId:", windowId, "source:", message.data?.source)
     try {
       // Chrome requires sidePanel.open() to run directly in the user-gesture
       // task. Do not await other async APIs before this call.
       const openResult = sidePanel.open({ windowId })
       return Promise.resolve(openResult)
         .then(() => {
-          console.warn("[Background] sidePanel.open succeeded, windowId:", windowId)
           windowState.markOpened({ windowId })
           return { ok: true, action: "opened" } as const
         })
         .catch((error) => {
-          console.error("[Background] sidePanel.open failed:", error)
           logger.error("Failed to open side panel", error)
           return { ok: false, reason: "toggle-failed" } as const
         })
     }
     catch (error) {
-      console.error("[Background] sidePanel.open threw synchronously:", error)
       logger.error("Failed to open side panel", error)
       return Promise.resolve({ ok: false, reason: "toggle-failed" } as const)
     }

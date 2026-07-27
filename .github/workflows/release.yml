@@ -104,8 +104,8 @@ jobs:
             --arg timestamp "$TIMESTAMP" \
             '{
               embeds: [{
-                title: "🐸 Read Frog Release!",
-                description: ("**Read Frog** version `" + $version + "` has been released!"),
+                title: "🦉 OwlNest Release!",
+                description: ("**OwlNest** version `" + $version + "` has been released!"),
                 url: $url,
                 color: 48253,
                 fields: $fields,

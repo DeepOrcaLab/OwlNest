@@ -54,18 +54,18 @@ async function initApp() {
     browser.tabs.query({
       active: true,
       currentWindow: true,
-    }),
+    }).catch(() => []),
   ])
   const config = configValue ?? DEFAULT_CONFIG
 
-  const tabId = activeTab[0].id
+  const tabId = activeTab[0]?.id
 
   let isPageTranslated: boolean = false
   if (tabId) {
     isPageTranslated
       = (await sendMessage("getEnablePageTranslationByTabId", {
         tabId,
-      })) ?? false
+      }).catch(() => false)) ?? false
   }
 
   const isInPatterns = tabId

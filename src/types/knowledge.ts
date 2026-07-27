@@ -21,6 +21,7 @@ export interface KnowledgeCard {
 /** Filter / search options for querying knowledge cards */
 export interface KnowledgeCardQuery {
   searchText?: string
+  searchTerms?: string[]
   tags?: string[]
   topic?: string
   pageUrl?: string

@@ -525,7 +525,7 @@ options:
       title: Персонализированные промпты
       description: Настройка различных типов промптов позволяет вам самостоятельно изменять тип промпта во время перевода. Промпт — это текст, который пользователь отправляет LLM.
       communityPrompts: Получайте или делитесь промптами с сообществом
-      communityPromptsUrl: https://github.com/mengxi-ream/read-frog/discussions/821
+      communityPromptsUrl: https://github.com/DeepOrcaLab/OwlNest/discussions
       addPrompt: Добавить промпт
       default: По умолчанию
       importSuccess: Импорт успешен

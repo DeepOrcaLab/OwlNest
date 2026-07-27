@@ -178,11 +178,7 @@ export const PROVIDER_ITEMS: Record<AllProviderTypes, { logo: (theme: Theme) => 
     "atlascloud": {
       logo: getLobeIconsCDNUrlFn("atlascloud"),
       name: "Atlas Cloud",
-      website: "https://readfrog.s.gy/altas",
-      sponsor: {
-        sponsoring: true,
-        referUrl: "https://readfrog.s.gy/altas",
-      },
+      website: "https://www.atlascloud.ai/",
     },
     "openai-compatible": {
       logo: () => customProviderLogo,

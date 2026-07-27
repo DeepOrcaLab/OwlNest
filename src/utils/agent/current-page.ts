@@ -6,6 +6,7 @@ export interface CurrentPageSnapshot {
   url: string
   selectedText: string
   content: string
+  paragraphs: string[]
   description: string
   capturedAt: number
 }
@@ -50,6 +51,7 @@ export async function getCurrentReadablePage(): Promise<CurrentPageResult> {
         url: tab.url ?? "",
         selectedText: "",
         content: "",
+        paragraphs: [],
         description: "当前页面不是可注入读取正文的普通网页，但 OwlNest 已识别到它的标题和 URL。",
         capturedAt: Date.now(),
       },
@@ -72,6 +74,7 @@ export async function getCurrentReadablePage(): Promise<CurrentPageResult> {
           url: page?.url || tab.url,
           selectedText: page?.selectedText || "",
           content: "",
+          paragraphs: page?.paragraphs || [],
           description: page?.description || "已连接到当前页面，但没有读取到正文内容。",
           capturedAt: Date.now(),
         },
@@ -86,6 +89,7 @@ export async function getCurrentReadablePage(): Promise<CurrentPageResult> {
         url: page.url || tab.url,
         selectedText: page.selectedText || "",
         content: page.content || "",
+        paragraphs: page.paragraphs || [],
         description: page.description || "",
         capturedAt: Date.now(),
       },
@@ -100,6 +104,7 @@ export async function getCurrentReadablePage(): Promise<CurrentPageResult> {
         url: tab.url ?? "",
         selectedText: "",
         content: "",
+        paragraphs: [],
         description: `已识别当前页面，但正文读取失败：${error instanceof Error ? error.message : "注入脚本失败"}`,
         capturedAt: Date.now(),
       },
@@ -147,6 +152,16 @@ function readPageInHost() {
   const main = document.querySelector("article, main, [role='main'], #content, .content")
   const source = main ?? document.body
   const content = normalizePageText(source?.textContent ?? "")
+  const seen = new Set<string>()
+  const paragraphs = Array.from(source?.querySelectorAll("h1, h2, h3, h4, p, li, blockquote") ?? [])
+    .map(node => normalizePageText(node.textContent ?? ""))
+    .filter((text) => {
+      if (text.length < 20 || seen.has(text))
+        return false
+      seen.add(text)
+      return true
+    })
+    .slice(0, 160)
 
   return {
     title: document.title,
@@ -154,6 +169,7 @@ function readPageInHost() {
     selectedText,
     description: metaDescription,
     content: content.slice(0, 24000),
+    paragraphs,
   }
 }
 
@@ -163,4 +179,85 @@ function normalizePageText(text: string): string {
     .replace(/[ \t]{2,}/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .trim()
+}
+
+export function formatPageEvidence(page: CurrentPageSnapshot, maxContentLength: number): string {
+  const sourceParagraphs = getPageEvidenceParagraphs(page)
+
+  let usedLength = 0
+  const numbered: string[] = []
+
+  for (const paragraph of sourceParagraphs) {
+    const remaining = maxContentLength - usedLength
+    if (remaining <= 0)
+      break
+
+    const content = paragraph.slice(0, remaining)
+    numbered.push(`[P${numbered.length + 1}] ${content}`)
+    usedLength += content.length
+  }
+
+  return numbered.join("\n\n") || "(No readable body text was extracted from this page.)"
+}
+
+export function getPageEvidenceParagraphs(page: CurrentPageSnapshot): string[] {
+  return page.selectedText.trim()
+    ? [page.selectedText.trim()]
+    : page.paragraphs.length > 0
+      ? page.paragraphs
+      : page.content.split(/\n{2,}/).map(text => text.trim()).filter(Boolean)
+}
+
+export async function focusCurrentPageEvidence(evidenceText: string): Promise<boolean> {
+  const tab = await findCurrentTab()
+  if (!tab?.id || !tab.url || !READABLE_URL_RE.test(tab.url) || !evidenceText.trim())
+    return false
+
+  try {
+    const [result] = await browser.scripting.executeScript({
+      target: { tabId: tab.id },
+      args: [evidenceText],
+      func: (targetText: string) => {
+        const normalize = (value: string) => value
+          .replace(/\u00A0/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+        const target = normalize(targetText)
+        const candidates = Array.from(document.querySelectorAll<HTMLElement>("h1, h2, h3, h4, p, li, blockquote"))
+        const element = candidates.find((node) => {
+          const text = normalize(node.textContent ?? "")
+          return text === target || text.includes(target) || target.includes(text)
+        })
+
+        if (!element)
+          return false
+
+        const previous = {
+          backgroundColor: element.style.backgroundColor,
+          borderRadius: element.style.borderRadius,
+          outline: element.style.outline,
+          outlineOffset: element.style.outlineOffset,
+          transition: element.style.transition,
+        }
+
+        element.scrollIntoView({ behavior: "smooth", block: "center" })
+        element.style.transition = "background-color 180ms ease, outline-color 180ms ease"
+        element.style.backgroundColor = "rgba(250, 204, 21, 0.22)"
+        element.style.borderRadius = "4px"
+        element.style.outline = "2px solid rgba(245, 158, 11, 0.72)"
+        element.style.outlineOffset = "3px"
+
+        window.setTimeout(() => {
+          Object.assign(element.style, previous)
+        }, 2600)
+
+        return true
+      },
+    })
+
+    return result?.result === true
+  }
+  catch {
+    return false
+  }
 }
