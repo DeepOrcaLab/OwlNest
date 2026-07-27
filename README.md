@@ -2,9 +2,9 @@
 
 # OwlNest
 
-An AI reading agent and knowledge nest browser extension.
+An AI reading, translation, and personal knowledge browser extension.
 
-Translate, read, chat with voice, search the web, and build your personal knowledge nest — right in your browser.
+Understand web pages and videos, ask AI without leaving the page, and turn what matters into knowledge you can revisit.
 
 [![English][english-shield]](./README.md) [![简体中文][chinese-shield]](./readmes/README.zh-CN.md)
 
@@ -28,14 +28,13 @@ Translate, read, chat with voice, search the web, and build your personal knowle
 - [Demo](#demo)
 - [Getting Started](#getting-started)
 - [Features](#features)
+  - [AI Reading](#ai-reading)
   - [Web Translation](#web-translation)
   - [Selection Translation](#selection-translation)
   - [OwlNest Agent Chat](#owlnest-agent-chat)
   - [Voice Input](#voice-input)
   - [Text-to-Speech (TTS)](#text-to-speech-tts)
-  - [Web Search & Weather](#web-search--weather)
   - [Knowledge Nest](#knowledge-nest)
-  - [Page Export](#page-export)
   - [Multi-Provider Support](#multi-provider-support)
   - [Subtitle Translation](#subtitle-translation)
 - [🧑‍💻 Development](#-development)
@@ -52,7 +51,7 @@ Translate, read, chat with voice, search the web, and build your personal knowle
 
 ## Getting Started
 
-OwlNest is an open-source AI browser extension that transforms your everyday web reading. Beyond translation, it gives you a side panel AI agent, voice input, web search, weather lookup, and a local knowledge nest to save and organize what you learn.
+OwlNest is an open-source AI browser extension for focused reading and learning. It brings AI reading, translation, video subtitles, a page-aware AI Agent, and a personal knowledge nest into the browser—so you can understand content, ask questions, and retain what you learn without constantly switching tools.
 
 ### Download
 
@@ -94,6 +93,10 @@ OwlNest is an open-source AI browser extension that transforms your everyday web
 
 ## Features
 
+### AI Reading
+
+Turn dense pages into clear learning material. Summarize the current page, extract the key ideas, explain unfamiliar terms, and make complex passages easier to understand.
+
 ### Web Translation
 
 Translate entire web pages or specific content with two display modes. **Bilingual mode** shows original text alongside its translation. **Translation-only mode** gives you a clean, immersive reading experience. Switch seamlessly without refreshing.
@@ -104,7 +107,7 @@ Select any text on a webpage to reveal a smart toolbar. **Translate** streams th
 
 ### OwlNest Agent Chat
 
-Open the side panel to chat with an AI agent that understands the page you're reading. Ask questions, get summaries, or explore topics — all with full awareness of the current page content.
+Use the built-in AI Agent without leaving the page. It understands the webpage or video you are viewing, so you can ask follow-up questions, get supporting information, check claims, and turn content into learning notes while you read.
 
 ### Voice Input
 
@@ -114,17 +117,9 @@ Speak your questions naturally. OwlNest converts speech to text and feeds it to 
 
 Listen to selected text with 150+ high-quality AI voices across 80+ languages. Powered by **Edge TTS** — completely free. Adjustable rate, pitch, and volume.
 
-### Web Search & Weather
-
-Enable web search for real-time information. Ask about news, events, or facts — OwlNest fetches current results. Weather lookup is also built-in. Tools show live status indicators as they work.
-
 ### Knowledge Nest
 
-Save important content to your local Knowledge Nest. Capture selected text, translations, AI responses, or whole page content. AI-generated tags and topics help organize your knowledge. Browse, search, edit, and export — all stored locally in your browser.
-
-### Page Export
-
-Export the current page or your entire Knowledge Nest to **Markdown** or **PDF**. Clean, readable formatting perfect for sharing or archiving.
+Build a personal knowledge base from what you read. Save selected text, translations, AI responses, or complete pages locally in your browser; AI-generated tags and topics keep everything organized. Search, revisit, and continue asking questions based on your saved material later.
 
 ### Multi-Provider Support
 
@@ -134,7 +129,7 @@ Plus free translation: Google Translate, Microsoft Translate, and DeepLX.
 
 ### Subtitle Translation
 
-Translate YouTube subtitles directly in the video player with real-time bilingual display.
+Translate video subtitles directly in the player with real-time bilingual display, making courses, talks, and educational videos easier to follow.
 
 <div align="right">
 
@@ -178,18 +173,7 @@ pnpm test
 
 OwlNest builds on open-source work. Attribution and license notices are maintained in [CREDITS.md](./CREDITS.md).
 
-Major changes in OwlNest include:
-
-- Established the OwlNest visual identity and reading-agent experience
-- Added OwlNest Agent side panel with page-aware chat
-- Added Knowledge Nest for local knowledge capture
-- Added save-to-knowledge workflow with AI-generated tags/topics
-- Added page export to Markdown and PDF
-- Added voice input and TTS improvements
-- Added web search and weather tool integrations
-- Added agent tool workflow with live status indicators
-- Updated onboarding, branding assets, and multi-language support
-- Unified icon library and theme token system
+OwlNest combines AI reading, translation, video subtitle support, a page-aware Agent, voice interaction, and a local knowledge nest into one continuous learning experience.
 
 <div align="right">
 
